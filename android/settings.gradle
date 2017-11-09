@@ -1,0 +1,3 @@
+rootProject.name = 'ChatAi'
+
+include ':app'
