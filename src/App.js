@@ -11,6 +11,7 @@ import {
   Text,
   View
 } from 'react-native';
+import MainTabNavigation from './components/MainTabNavigation';
 
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' +
@@ -23,6 +24,8 @@ export default class App extends Component<{}> {
   render() {
     return (
       <View style={styles.container}>
+
+        <MainTabNavigation />
         <Text style={styles.welcome}>
           Welcome to React Native!!!!
         </Text>
@@ -32,6 +35,7 @@ export default class App extends Component<{}> {
         <Text style={styles.instructions}>
           {instructions}
         </Text>
+
       </View>
     );
   }
