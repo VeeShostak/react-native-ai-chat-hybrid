@@ -1,36 +1,38 @@
-import React from 'react'
-import { NavigationComponent } from 'react-native-material-bottom-navigation'
-import { TabNavigator } from 'react-navigation'
+import React from 'react';
 import {
   Platform,
   StyleSheet,
   Text,
   View
 } from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons'
+import { NavigationComponent } from 'react-native-material-bottom-navigation';
+import { TabNavigator } from 'react-navigation';
+import Icon from 'react-native-vector-icons/Ionicons';
+
+import ChatBotChat from './ChatBotChat';
  
-class MoviesAndTV extends React.Component {
-  static navigationOptions = {
-    tabBarLabel: 'Movies & TV',
-    tabBarIcon: () => (<Icon name="ios-chatbubbles" size={24} color="white" />)
-  }
+// class MoviesAndTV extends React.Component {
+//   static navigationOptions = {
+//     tabBarLabel: 'Movies & TV',
+//     tabBarIcon: () => (<Icon name="ios-chatbubbles" size={24} color="white" />)
+//   }
  
-  render() { 
-  	return (
-      <View style={styles.container}>
+//   render() { 
+//   	return (
+//       <View style={styles.container}>
         
-        <Text style={styles.instructions}>
-          To get started, edit App.js
-        </Text>
+//         <Text style={styles.instructions}>
+//           To get started, edit App.js
+//         </Text>
         
-      </View>
-    ); 
-  }
-}
+//       </View>
+//     );
+//   }
+// }
  
-class Music extends React.Component {
+class Answer extends React.Component {
   static navigationOptions = {
-    tabBarLabel: 'Music',
+    tabBarLabel: 'Answer',
     tabBarIcon: () => (<Icon name="ios-text" size={24} color="white" />)
   }
  
@@ -39,7 +41,7 @@ class Music extends React.Component {
       <View style={styles.container}>
         
         <Text style={styles.instructions}>
-          To get started, edit App.js
+          List of questions from other users 
         </Text>
         
       </View>
@@ -47,9 +49,9 @@ class Music extends React.Component {
   }
 }
  
-class Newsstand extends React.Component {
+class Profile extends React.Component {
   static navigationOptions = {
-    tabBarLabel: 'Newsstand',
+    tabBarLabel: 'Profile',
     tabBarIcon: () => (<Icon name="md-person" size={24} color="white"/>)
   }
  
@@ -58,7 +60,7 @@ class Newsstand extends React.Component {
       <View style={styles.container}>
         
         <Text style={styles.instructions}>
-          To get started, edit App.js
+          User profile
         </Text>
         
       </View>
@@ -69,9 +71,9 @@ class Newsstand extends React.Component {
 // all on top are components, import them seperatly
 
 const MainTabNavigation = TabNavigator({
-  MoviesAndTV: { screen: MoviesAndTV },
-  Music: { screen: Music },
-  Newsstand: { screen: Newsstand }
+  ChatBotChat: { screen: ChatBotChat },
+  Answer: { screen: Answer },
+  Profile: { screen: Profile }
 }, {
   tabBarComponent: NavigationComponent,
   tabBarPosition: 'bottom',
@@ -80,15 +82,15 @@ const MainTabNavigation = TabNavigator({
       labelColor: 'white',
       rippleColor: 'white',
       tabs: {
-        MoviesAndTV: {
+        ChatBotChat: {
           barBackgroundColor: '#37474F'
         },
-        Music: {
+        Answer: {
           barBackgroundColor: '#00796B'
         },
-        Newsstand: {
+        Profile: {
           barBackgroundColor: '#EEEEEE',
-          labelColor: '#434343', // like in the standalone version, this will override the already specified `labelColor` for this tab
+          //labelColor: '#434343', // like in the standalone version, this will override the already specified `labelColor` for this tab
           activeLabelColor: '#212121',
           activeIcon: <Icon name="md-person" size={24} color="#212121" />
         }
