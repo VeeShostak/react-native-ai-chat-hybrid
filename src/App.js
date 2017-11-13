@@ -1,8 +1,3 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- * @flow
- */
 
 import React, { Component } from 'react';
 import {
@@ -11,21 +6,65 @@ import {
   Text,
   View
 } from 'react-native';
+
 import MainTabNavigation from './components/MainTabNavigation';
 
-const instructions = Platform.select({
-  ios: 'Press Cmd+R to reload,\n' +
-    'Cmd+D or shake for dev menu',
-  android: 'Double tap R on your keyboard to reload,\n' +
-    'Shake or press menu button for dev menu',
-});
+import ReduxThunk from 'redux-thunk';
+import reducers from './reducers';
+import Router from './Router';
+
+import { Provider } from 'react-redux';
+import { createStore, applyMiddleware } from 'redux';
+
+
+import { firebase } from './firebase/firebase';
+//import firebase from 'firebase';
+
+//import LoginForm from './components/LoginForm';
+
+
 
 export default class App extends Component<{}> {
+   componentWillMount() {
+  //   const config = {
+  //     apiKey: "AIzaSyB_Q8zZFlbdcfdYTuobcRDx6Q41R-Ccfd8",
+  //     authDomain: "chatai-cd580.firebaseapp.com",
+  //     databaseURL: "https://chatai-cd580.firebaseio.com",
+  //     projectId: "chatai-cd580",
+  //     storageBucket: "chatai-cd580.appspot.com",
+  //     messagingSenderId: "46134318898"
+  //   };
+
+  //   firebase.initializeApp(config);
+
+    }
+
+//   StackNavigator({
+//   route1: { screen: RouteOne },
+//   route2: { screen: MyTabNavigator },
+// });
+
+  // const RootNavigator = StackNavigator({
+  //   Home: {
+  //     screen: LoginPage,
+  //   },
+  //   Details: {
+  //     screen: MainTabNavigation,
+  //   },
+  // });
+
   render() {
+    const store = createStore(reducers, {}, applyMiddleware(ReduxThunk));
+
     return (
-      <MainTabNavigation />
-      
+      <Provider store={store}>
+        <Router />
+      </Provider>
     );
+    // return (
+    //   <MainTabNavigation />
+      
+    // );
   }
 }
 

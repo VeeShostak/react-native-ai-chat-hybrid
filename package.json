@@ -12,6 +12,7 @@
 		"react-native": "^0.50.3",
 		"react-native-gifted-chat": "^0.3.0",
 		"react-native-material-bottom-navigation": "^0.6.1",
+		"react-native-router-flux": "^4.0.0-beta.23",
 		"react-native-vector-icons": "^4.4.2",
 		"react-navigation": "^1.0.0-beta.19",
 		"react-redux": "^5.0.6",
