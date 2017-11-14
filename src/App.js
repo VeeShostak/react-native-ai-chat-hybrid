@@ -57,8 +57,9 @@ export default class App extends Component<{}> {
     const store = createStore(reducers, {}, applyMiddleware(ReduxThunk));
 
     return (
+      // Provider makes the global store available to all of the children containers or components
       <Provider store={store}>
-        <Router />
+        <Router isSignedIn={true}/>
       </Provider>
     );
     // return (

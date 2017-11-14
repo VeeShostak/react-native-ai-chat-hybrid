@@ -18,62 +18,14 @@ class LoginForm extends Component {
   onPasswordChange(text) {
     this.props.passwordChanged(text);
   }
-  
-  navigateTo(where) {
-    this.props.navigation.navigate(where);
-
-  }
 
   onButtonPress() {
 
     const { email, password } = this.props.auth;
+    // Each screen in your app will receive a navigation prop
+    // pass it to navigate on user successful login
     const navigateOnLogin = (where) => this.props.navigation.navigate(where);
-    this.props.loginUser({ email, password }, navigateOnLogin)
-    //console.error('userID:');
-
-    // assign values to an object
-   //  let loginInfo;
-   //  loginInfo.email = this.props.auth.email;
-   //  loginInfo.password = this.props.auth.password;
-
-   // //console.error('USR ', this.props.auth.email);
-   //  // get email from store, and dispatch action
-   //  this.props.loginUser(loginInfo.email, loginInfo.password);
-
-    
-
-
-    
-
-    
-    // sign user in.
-    
-
-    // Promise.resolve( this.props.loginUser({ email, password }) ).then(function (response){
-    //     if (this.props.email != '') {
-    //       this.props.navigation.navigate('Details');
-    //     } else {
-    //       console.error('USR NULL');
-
-    //     }
-    //     return response;
-    //   }).catch((error) => {
-
-    //     console.log('error: ', error);
-    //     if (this.props.error === '') {
-    //       this.props.navigation.navigate('Details');
-    //     } else {
-    //       console.error('USR NULL');
-
-    //     }
-        
-    //   });
-
-    // // on success
-    // if (this.props.user != null) {
-    //   this.props.navigation.navigate('Details');
-    // }
-    // this.props.navigation.navigate('Details');
+    this.props.loginUser({ email, password }, navigateOnLogin);
 
   }
 
@@ -97,7 +49,7 @@ class LoginForm extends Component {
             label="Email"
             placeholder="email@gmail.com"
             onChangeText={this.onEmailChange.bind(this)}
-            value={this.props.email}
+            value={this.props.auth.email}
           />
         </CardSection>
 
@@ -107,12 +59,12 @@ class LoginForm extends Component {
             label="Password"
             placeholder="password"
             onChangeText={this.onPasswordChange.bind(this)}
-            value={this.props.password}
+            value={this.props.auth.password}
           />
         </CardSection>
 
         <Text style={styles.errorTextStyle}>
-          {this.props.error}
+          {this.props.auth.error}
         </Text>
 
         <CardSection>

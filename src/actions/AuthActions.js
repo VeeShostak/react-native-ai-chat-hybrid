@@ -39,7 +39,11 @@ export const loginUser = ({ email, password }, navigateOnLogin) => {
         console.log(error);
         // auth failed, create the user
         firebase.auth().createUserWithEmailAndPassword(email, password)
-          .then(user => loginUserSuccess(dispatch, user))
+          .then(user => {
+            loginUserSuccess(dispatch, user);
+            // Switch to main screen
+            navigateOnLogin('Details');
+          })
           .catch(() => loginUserFail(dispatch));
       });
   };
@@ -48,8 +52,6 @@ export const loginUser = ({ email, password }, navigateOnLogin) => {
 const loginUserFail = (dispatch) => {
   dispatch({ 
     type: LOGIN_USER_FAIL });
-  // Switch to main screen
-  //Actions.main();
   
 };
 

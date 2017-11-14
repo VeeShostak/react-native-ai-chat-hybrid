@@ -12,7 +12,7 @@ import * as firebase from 'firebase'; // take all exports and toss them on 1 nam
 
 
 import configureStore from './store/configureStore';
-import { login, logout } from './actions/auth';
+
 
 
 
@@ -37,27 +37,27 @@ import { login, logout } from './actions/auth';
 
 // };
 
-// routeNavigator
 
-  const store = configureStore();
+
+ //  const store = configureStore();
 
 	const isSignedIn = false;
 
-	const checkAuthStatus = () => {
+	// const checkAuthStatus = () => {
 
-		firebase.auth().onAuthStateChanged((user) => {
-		  if (user) {
-		    store.dispatch(login(user.uid));
-		    isSignedIn = true;
+	// 	firebase.auth().onAuthStateChanged((user) => {
+	// 	  if (user) {
+	// 	    store.dispatch(login(user.uid));
+	// 	    isSignedIn = true;
 		    
-		  } else {
-		    store.dispatch(logout());
-		    isSignedIn = false;
-		  }
-		});
-	}
+	// 	  } else {
+	// 	    store.dispatch(logout());
+	// 	    isSignedIn = false;
+	// 	  }
+	// 	});
+	// }
 
-  checkAuthStatus();
+ //  checkAuthStatus();
 
   const RouterComponent = StackNavigator({
     Home: {
