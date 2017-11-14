@@ -1,27 +1,52 @@
 import React, { Component } from 'react';
 import { Text } from 'react-native';
 import { connect } from 'react-redux';
-import { startLogin } from '../actions/auth';
+import { bindActionCreators } from 'redux';
 
-import { emailChanged, passwordChanged, loginUser } from '../actions';
+
+//import { emailChanged, passwordChanged, loginUser } from '../actions';
+import * as myActions from '../actions';
 import { Card, CardSection, Input, Button, Spinner } from './common';
 
-class LoginForm extends Component {
-  // onEmailChange(text) {
-  //   this.props.emailChanged(text);
-  // }
+import { firebase, googleAuthProvider } from '../firebase/firebase';
 
-  // onPasswordChange(text) {
-  //   this.props.passwordChanged(text);
-  // }
-  // NOTE: causes COUPLING, move functionality to redux
+class LoginForm extends Component {
+  onEmailChange(text) {
+    this.props.emailChanged(text);
+  }
+
+  onPasswordChange(text) {
+    this.props.passwordChanged(text);
+  }
+  
   navigateTo(where) {
     this.props.navigation.navigate(where);
 
   }
 
   onButtonPress() {
-    const { email, password } = this.props;
+
+    const { email, password } = this.props.auth;
+    const navigateOnLogin = (where) => this.props.navigation.navigate(where);
+    this.props.loginUser({ email, password }, navigateOnLogin)
+    //console.error('userID:');
+
+    // assign values to an object
+   //  let loginInfo;
+   //  loginInfo.email = this.props.auth.email;
+   //  loginInfo.password = this.props.auth.password;
+
+   // //console.error('USR ', this.props.auth.email);
+   //  // get email from store, and dispatch action
+   //  this.props.loginUser(loginInfo.email, loginInfo.password);
+
+    
+
+
+    
+
+    
+    // sign user in.
     
 
     // Promise.resolve( this.props.loginUser({ email, password }) ).then(function (response){
@@ -58,7 +83,7 @@ class LoginForm extends Component {
     }
 
     return (
-      <Button onPress={startLogin}>
+      <Button onPress={this.onButtonPress.bind(this)}>
         Login
       </Button>
     );
@@ -67,8 +92,28 @@ class LoginForm extends Component {
   render() {
     return (
       <Card>
+        <CardSection>
+          <Input
+            label="Email"
+            placeholder="email@gmail.com"
+            onChangeText={this.onEmailChange.bind(this)}
+            value={this.props.email}
+          />
+        </CardSection>
 
-       
+        <CardSection>
+          <Input
+            secureTextEntry
+            label="Password"
+            placeholder="password"
+            onChangeText={this.onPasswordChange.bind(this)}
+            value={this.props.password}
+          />
+        </CardSection>
+
+        <Text style={styles.errorTextStyle}>
+          {this.props.error}
+        </Text>
 
         <CardSection>
           {this.renderButton()}
@@ -100,8 +145,25 @@ const styles = {
 // })(LoginForm);
 
 
-const mapDispatchToProps = (dispatch) => ({
-  startLogin: () => dispatch(startLogin())
-});
 
-export default connect(undefined, mapDispatchToProps)(LoginForm);
+// access state
+const mapStateToProps = (state) => {
+  return {
+    auth: state.auth
+  }
+}
+
+// access actions
+const mapDispatchToProps = (dispatch) => {
+  let actionCreators = bindActionCreators(myActions, dispatch)
+  return {
+    ...actionCreators,
+    dispatch
+    // emailChanged: () => dispatch(emailChanged()),
+    // passwordChanged: () => dispatch(passwordChanged()),
+    // loginUser: () => dispatch(loginUser()),
+  }
+}
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoginForm);
