@@ -6,7 +6,7 @@ import { bindActionCreators } from 'redux';
 
 //import { emailChanged, passwordChanged, loginUser } from '../actions';
 import * as myActions from '../actions';
-import { Card, CardSection, Input, Button, Spinner } from './common';
+import { Card, CardSection, Input, Button, Spinner, Header } from './common';
 
 import { firebase, googleAuthProvider } from '../firebase/firebase';
 
@@ -36,7 +36,7 @@ class LoginForm extends Component {
 
     return (
       <Button onPress={this.onButtonPress.bind(this)}>
-        Login
+        Login/Sign Up
       </Button>
     );
   }
@@ -44,6 +44,7 @@ class LoginForm extends Component {
   render() {
     return (
       <Card>
+        <Header headerText={"Welcome"}/>
         <CardSection>
           <Input
             label="Email"
