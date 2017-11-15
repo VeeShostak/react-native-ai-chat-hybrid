@@ -41,7 +41,7 @@ import configureStore from './store/configureStore';
 
  //  const store = configureStore();
 
-	const isSignedIn = false;
+	const isSignedIn = true;
 
 	// const checkAuthStatus = () => {
 
