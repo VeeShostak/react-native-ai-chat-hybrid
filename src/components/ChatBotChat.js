@@ -84,7 +84,6 @@ class ChatBotChat extends React.Component {
         isAnimated={true}
         showUserAvatar={false}
         maxInputLength={200}
-        
       />
     );
   }

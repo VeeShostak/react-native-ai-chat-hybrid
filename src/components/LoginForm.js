@@ -8,7 +8,7 @@ import { bindActionCreators } from 'redux';
 import * as myActions from '../actions';
 import { Card, CardSection, Input, Button, Spinner, Header } from './common';
 
-import { firebase, googleAuthProvider } from '../firebase/firebase';
+//import { firebase, googleAuthProvider } from '../firebase/firebase';
 
 class LoginForm extends Component {
   onEmailChange(text) {

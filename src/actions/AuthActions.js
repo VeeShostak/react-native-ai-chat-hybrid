@@ -1,4 +1,4 @@
-import firebase from 'firebase';
+//import firebase from 'firebase';
 import { Actions } from 'react-native-router-flux';
 import {
   EMAIL_CHANGED,
@@ -7,6 +7,9 @@ import {
   LOGIN_USER_FAIL,
   LOGIN_USER
 } from './types';
+
+import database, { firebase, googleAuthProvider } from '../firebase/firebase';
+
 
 // save email to store
 export const emailChanged = (text) => {
@@ -37,10 +40,18 @@ export const loginUser = ({ email, password }, navigateOnLogin) => {
       })
       .catch((error) => {
         console.log(error);
-        // auth failed, create the user
+        // auth failed, create the user and save to DB
         firebase.auth().createUserWithEmailAndPassword(email, password)
           .then(user => {
             loginUserSuccess(dispatch, user);
+            // push new user to DB
+            database.ref(`users/${user.uid}`).set({email: email, password: password})
+            .then(()=> {
+              console.log('pushed user to db', user);
+            }).catch((e) => {
+              console.log('failed: failed ot push user', e);
+            });
+
             // Switch to main screen
             navigateOnLogin('Details');
           })
