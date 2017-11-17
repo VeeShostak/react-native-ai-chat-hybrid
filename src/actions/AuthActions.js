@@ -45,7 +45,7 @@ export const loginUser = ({ email, password }, navigateOnLogin) => {
           .then(user => {
             loginUserSuccess(dispatch, user);
             // push new user to DB
-            database.ref(`users/${user.uid}`).set({email: email, password: password})
+            database.ref(`users/${user.uid}`).set({email: email})
             .then(()=> {
               console.log('pushed user to db', user);
             }).catch((e) => {

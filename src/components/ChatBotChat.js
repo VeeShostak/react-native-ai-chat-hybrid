@@ -83,6 +83,8 @@ class ChatBotChat extends React.Component {
           messages: GiftedChat.append(previousState.messages, messageObject),
         }));
 
+        this.props.conversationPostCreate({ userQuery, response, machineResponded });
+
       }, error => console.log('api.ai: ', error)); 
     };
     sendRequest();
@@ -128,7 +130,5 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-//export default connect(mapStateToProps, mapDispatchToProps)(ChatBotChat);
-const reduxConnect = connect(mapStateToProps, mapDispatchToProps)(ChatBotChat);
-export {ChatBotChat, reduxConnect as default};
+export default connect(mapStateToProps, mapDispatchToProps)(ChatBotChat);
 
