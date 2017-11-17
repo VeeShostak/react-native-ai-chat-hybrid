@@ -3,6 +3,10 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import { GiftedChat } from 'react-native-gifted-chat';
 import ApiAi from 'react-native-api-ai';
 import uuid from 'react-native-uuid';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+
+import * as myActions from '../actions';
 
 class ChatBotChat extends React.Component {
   constructor(props) {
@@ -41,10 +45,25 @@ class ChatBotChat extends React.Component {
       messages: GiftedChat.append(previousState.messages, messages),
     }));
 
+    const userQuery = messages[0].text;
+    let machineResponded = true;
+    let response = "";
+
     const sendRequest = () =>  {
-      ApiAi.requestQuery(messages[0].text, result => {
-        const response = result.result.fulfillment.speech;
+      
+
+      ApiAi.requestQuery(userQuery, result => {
+        response = result.result.fulfillment.speech;
         
+        // if bad response, route to human
+        if (response == "") {
+          // send to live-chat-posts, wait 10s, 
+
+        }
+
+        // else we got a response, add the conversation post
+        // TODO: PUSH DATE
+        //this.props.conversationPostCreate({ userQuery, response, machineResponded });
 
           const messageObject =
           {
@@ -58,11 +77,13 @@ class ChatBotChat extends React.Component {
             },
           };
         
+          
 
         this.setState((previousState) => ({
           messages: GiftedChat.append(previousState.messages, messageObject),
         }));
-      }, error => console.error(error));
+
+      }, error => console.log('api.ai: ', error)); 
     };
     sendRequest();
 
@@ -90,5 +111,24 @@ class ChatBotChat extends React.Component {
 
 }
 
+// access state
+const mapStateToProps = (state) => {
+  return {
+    userChatPosts: state.userChatPosts
+  }
+}
 
-export default ChatBotChat;
+// access actions dispatch to store
+const mapDispatchToProps = (dispatch) => {
+  let actionCreators = bindActionCreators(myActions, dispatch)
+  return {
+    ...actionCreators,
+    dispatch
+    // emailChanged: () => dispatch(emailChanged()),
+  }
+}
+
+//export default connect(mapStateToProps, mapDispatchToProps)(ChatBotChat);
+const reduxConnect = connect(mapStateToProps, mapDispatchToProps)(ChatBotChat);
+export {ChatBotChat, reduxConnect as default};
+

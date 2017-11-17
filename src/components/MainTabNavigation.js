@@ -9,7 +9,7 @@ import { NavigationComponent } from 'react-native-material-bottom-navigation';
 import { TabNavigator } from 'react-navigation';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-import ChatBotChat from './ChatBotChat';
+import { ChatBotChat } from './ChatBotChat';
  
 // class MoviesAndTV extends React.Component {
 //   static navigationOptions = {

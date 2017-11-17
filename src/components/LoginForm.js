@@ -106,7 +106,7 @@ const mapStateToProps = (state) => {
   }
 }
 
-// access actions
+// access actions dispatch to store
 const mapDispatchToProps = (dispatch) => {
   let actionCreators = bindActionCreators(myActions, dispatch)
   return {
