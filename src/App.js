@@ -4,7 +4,8 @@ import {
   Platform,
   StyleSheet,
   Text,
-  View
+  View,
+  AsyncStorage
 } from 'react-native';
 
 import MainTabNavigation from './components/MainTabNavigation';
@@ -14,13 +15,12 @@ import reducers from './reducers';
 import Router from './Router';
 
 import { Provider } from 'react-redux';
-import { createStore, applyMiddleware } from 'redux';
+import { compose, createStore, applyMiddleware } from 'redux';
 
 
 import { firebase } from './firebase/firebase';
-//import firebase from 'firebase';
+import { persistStore, autoRehydrate } from 'redux-persist';
 
-//import LoginForm from './components/LoginForm';
 
 
 
@@ -53,8 +53,58 @@ export default class App extends Component<{}> {
   //   },
   // });
 
+//todo: configure store in seperate file
+/*
+import { persistStore, persistCombineReducers } from 'redux-persist'
+import storage from 'redux-persist/es/storage' // default: localStorage if web, AsyncStorage if react-native
+import reducers from './reducers' // where reducers is an object of reducers
+
+const config = {
+  key: 'root',
+  storage,
+}
+
+const reducer = persistCombineReducers(config, reducers)
+
+function configureStore () {
+  // ...
+  let store = createStore(reducer)
+  let persistor = persistStore(store)
+
+  return { persistor, store }
+}
+
+*/
+
+
+
+
   render() {
-    const store = createStore(reducers, {}, applyMiddleware(ReduxThunk));
+    // MOVE TO STORE CONFIG
+    //const myStore = createStore(reducers, {}, applyMiddleware(ReduxThunk));
+
+    //const myStore = createStore(reducers, {storage: AsyncStorage}, applyMiddleware(ReduxThunk, autoRehydrate()));
+    
+    // const store = createStore(reducers, {}, applyMiddleware(ReduxThunk));
+
+    // // Enable persistence
+    // //persistStore(store);
+    // persistStore(store, {storage: AsyncStorage}, () => {
+    //       this.setState({ rehydrated: true })
+    //     });
+
+    // Add the autoRehydrate middleware to your redux store
+// const store = createStore(reducers, undefined, () => {
+//           this.setState({ rehydrated: true })
+//         });
+// ======
+
+const middleware = [ReduxThunk];
+let store = compose(
+  applyMiddleware(...middleware),
+  autoRehydrate()
+)(createStore)(reducers);
+persistStore(store, {storage: AsyncStorage});
 
     return (
       // Provider makes the global store available to all of the children containers or components

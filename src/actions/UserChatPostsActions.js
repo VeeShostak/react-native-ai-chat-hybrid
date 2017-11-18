@@ -8,9 +8,7 @@ import database, { firebase, googleAuthProvider } from '../firebase/firebase';
 
 // add (q and a) conversation to db and to store
 // @param machineResponded: bool did the machine or a human respond
-export const conversationPostCreate = ({ userQuery, response, machineResponded }) => {
-
-
+export const conversationPostCreate = ({ userQuery, response, machineResponded }, messagesToAdd) => {
 
 	const  currentUserInfo = firebase.auth().currentUser;
 
@@ -22,10 +20,17 @@ export const conversationPostCreate = ({ userQuery, response, machineResponded }
 	  	machineResponded: machineResponded
 	   })
 	  .then(() => {
-	    dispatch({ type: CONVERSATION_POST_CREATE });
+	    dispatch({ 
+	    	type: CONVERSATION_POST_CREATE,
+	    	payload: messagesToAdd
+	     });
 	  }).catch((error) => console.log('conversationPostCreate error: ', error));
 	};
 };
+
+
+
+
 
 // if dialogflow had noresponse, add conversation to live-chat-posts node for human to answer
 

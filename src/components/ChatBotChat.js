@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import * as myActions from '../actions';
+//import configureStore from './store';
 
 class ChatBotChat extends React.Component {
   constructor(props) {
@@ -15,6 +16,8 @@ class ChatBotChat extends React.Component {
     ApiAi.setConfiguration(
       "16ef009735374933b80a27d199edc8de", ApiAi.LANG_ENGLISH
     );
+
+
   }
 
   state = {
@@ -22,25 +25,33 @@ class ChatBotChat extends React.Component {
   };
 
   componentWillMount() {
-    this.setState({
-      messages: [
+    // this.setState({
+    //   messages: [
 
-      	{
-          _id: uuid.v4(),
-          text: 'How are you?',
-          createdAt: new Date(),
-          user: {
-            _id: 2,
-            name: 'Ai',
+    //   	{
+    //       _id: uuid.v4(),
+    //       text: 'How are you?',
+    //       createdAt: new Date(),
+    //       user: {
+    //         _id: 2,
+    //         name: 'Ai',
             
-          },
-        },
-      ]
+    //       },
+    //     },
+    //   ]
+    // });
+
+    //console.error(this.props.userChatPosts);
+
+    this.setState({
+      messages: this.props.userChatPosts
     });
   }
 
   // @param messages: takes message object
   onSend(messages = []) {
+
+    // append userQuery to gifted chat messages
     this.setState((previousState) => ({
       messages: GiftedChat.append(previousState.messages, messages),
     }));
@@ -62,10 +73,8 @@ class ChatBotChat extends React.Component {
         }
 
         // else we got a response, add the conversation post
-        // TODO: PUSH DATE
-        //this.props.conversationPostCreate({ userQuery, response, machineResponded });
 
-          const messageObject =
+          const messageObjectResponse =
           {
             _id: uuid.v4(),
             text: response,
@@ -73,17 +82,19 @@ class ChatBotChat extends React.Component {
             user: {
               _id: 2,
               name: 'Ai',
-              
             },
           };
         
           
 
         this.setState((previousState) => ({
-          messages: GiftedChat.append(previousState.messages, messageObject),
+          messages: GiftedChat.append(previousState.messages, messageObjectResponse),
         }));
 
-        this.props.conversationPostCreate({ userQuery, response, machineResponded });
+        // NOTE: must be backwards for GiftedChat
+        messagesToAdd = [messageObjectResponse, messages[0]];
+
+        this.props.conversationPostCreate({ userQuery, response, machineResponded }, messagesToAdd);
 
       }, error => console.log('api.ai: ', error)); 
     };

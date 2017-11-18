@@ -1,5 +1,8 @@
-
-
+import { AsyncStorage } from 'react-native'; // we need to import AsyncStorage to use as a storage enginge
+import { createStore, applyMiddleware } from 'redux';
+import { persistStore, autoRehydrate } from 'redux-persist'; 
+import reducers from './../reducers';
+import ReduxThunk from 'redux-thunk';
 
 
 // import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
@@ -23,3 +26,16 @@
 //     const store = createStore(reducers, {}, applyMiddleware(thunk));
 //     return store;
 // };
+
+// export const myStore = createStore(reducers, {}, applyMiddleware(ReduxThunk, autoRehydrate()));
+// // Enable persistence
+// persistStore(store)
+
+// export default configureStore = (onComplete) => { 
+//     const store = autoRehydrate()(createStoreWithMiddleware)(reducers);
+//     persistStore(store, { storage: AsyncStorage }, onComplete);
+
+//     return store;
+// }; 
+
+

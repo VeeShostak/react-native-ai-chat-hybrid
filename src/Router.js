@@ -11,7 +11,7 @@ import * as firebase from 'firebase'; // take all exports and toss them on 1 nam
 
 
 
-import configureStore from './store/configureStore';
+//import configureStore from './store/configureStore';
 
 
 
