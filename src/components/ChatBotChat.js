@@ -91,10 +91,13 @@ class ChatBotChat extends React.Component {
           messages: GiftedChat.append(previousState.messages, messageObjectResponse),
         }));
 
+        createdAt = messageObjectResponse.createdAt;
+        
+
         // NOTE: must be backwards for GiftedChat
         messagesToAdd = [messageObjectResponse, messages[0]];
 
-        this.props.conversationPostCreate({ userQuery, response, machineResponded }, messagesToAdd);
+        this.props.conversationPostCreate({ userQuery, response, machineResponded, createdAt }, messagesToAdd);
 
       }, error => console.log('api.ai: ', error)); 
     };

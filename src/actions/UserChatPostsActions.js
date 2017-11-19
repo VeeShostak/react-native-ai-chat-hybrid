@@ -8,16 +8,18 @@ import database, { firebase, googleAuthProvider } from '../firebase/firebase';
 
 // add (q and a) conversation to db and to store
 // @param machineResponded: bool did the machine or a human respond
-export const conversationPostCreate = ({ userQuery, response, machineResponded }, messagesToAdd) => {
+export const conversationPostCreate = ({ userQuery, response, machineResponded, createdAt }, messagesToAdd) => {
 
 	const  currentUserInfo = firebase.auth().currentUser;
+
 
 	return (dispatch) => {
 	database.ref(`user-chat-posts/${currentUserInfo.uid}`)
 	  .push({ 
 	  	userQuery: userQuery,
 	  	response: response,
-	  	machineResponded: machineResponded
+	  	machineResponded: machineResponded,
+	  	createdAt: createdAt.getTime()
 	   })
 	  .then(() => {
 	    dispatch({ 
@@ -26,6 +28,7 @@ export const conversationPostCreate = ({ userQuery, response, machineResponded }
 	     });
 	  }).catch((error) => console.log('conversationPostCreate error: ', error));
 	};
+
 };
 
 
@@ -33,4 +36,22 @@ export const conversationPostCreate = ({ userQuery, response, machineResponded }
 
 
 // if dialogflow had noresponse, add conversation to live-chat-posts node for human to answer
+// export const conversationPostCreate = ({ userQuery, response, machineResponded, date }, messagesToAdd) => {
 
+// 	const  currentUserInfo = firebase.auth().currentUser;
+
+// 	return (dispatch) => {
+// 	database.ref(`user-chat-posts/${currentUserInfo.uid}`)
+// 	  .push({ 
+// 	  	userQuery: userQuery,
+// 	  	response: response,
+// 	  	machineResponded: machineResponded
+// 	   })
+// 	  .then(() => {
+// 	    dispatch({ 
+// 	    	type: CONVERSATION_POST_CREATE,
+// 	    	payload: messagesToAdd
+// 	     });
+// 	  }).catch((error) => console.log('conversationPostCreate error: ', error));
+// 	};
+// };
