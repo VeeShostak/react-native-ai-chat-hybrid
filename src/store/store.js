@@ -1,7 +1,10 @@
 import { AsyncStorage } from 'react-native'; // we need to import AsyncStorage to use as a storage enginge
 import { createStore, applyMiddleware } from 'redux';
 import { persistStore, autoRehydrate } from 'redux-persist'; 
+
 import reducers from './../reducers';
+
+
 import ReduxThunk from 'redux-thunk';
 
 

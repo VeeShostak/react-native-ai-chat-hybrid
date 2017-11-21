@@ -31,7 +31,6 @@ export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case CONVERSATION_POST_CREATE:
       return [
-      // NOTE: must be backwards for GiftedChat
       	...action.payload, // add uerQuery and response values
       	...state // spread prev values
       ];

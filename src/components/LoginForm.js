@@ -11,6 +11,8 @@ import { Card, CardSection, Input, Button, Spinner, Header } from './common';
 //import { firebase, googleAuthProvider } from '../firebase/firebase';
 
 class LoginForm extends Component {
+  
+
   onEmailChange(text) {
     this.props.emailChanged(text);
   }

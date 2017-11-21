@@ -10,44 +10,8 @@ import { TabNavigator } from 'react-navigation';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 import ChatBotChat from './ChatBotChat';
- 
-// class MoviesAndTV extends React.Component {
-//   static navigationOptions = {
-//     tabBarLabel: 'Movies & TV',
-//     tabBarIcon: () => (<Icon name="ios-chatbubbles" size={24} color="white" />)
-//   }
- 
-//   render() { 
-//   	return (
-//       <View style={styles.container}>
-        
-//         <Text style={styles.instructions}>
-//           To get started, edit App.js
-//         </Text>
-        
-//       </View>
-//     );
-//   }
-// }
- 
-class Answer extends React.Component {
-  static navigationOptions = {
-    tabBarLabel: 'Answer',
-    tabBarIcon: () => (<Icon name="ios-text" size={24} color="white" />)
-  }
- 
-  render() { 
-  	return (
-      <View style={styles.container}>
-        
-        <Text style={styles.instructions}>
-          List of questions from other users 
-        </Text>
-        
-      </View>
-    ); 
-  }
-}
+import HumanAnswerChatList from './HumanAnswerChatList';
+  
  
 class Profile extends React.Component {
   static navigationOptions = {
@@ -68,11 +32,10 @@ class Profile extends React.Component {
   }
 }
  
-// all on top are components, import them seperatly
 
 const MainTabNavigation = TabNavigator({
   ChatBotChat: { screen: ChatBotChat },
-  Answer: { screen: Answer },
+  HumanAnswerChatList: { screen: HumanAnswerChatList },
   Profile: { screen: Profile }
 }, {
   tabBarComponent: NavigationComponent,
@@ -85,7 +48,7 @@ const MainTabNavigation = TabNavigator({
         ChatBotChat: {
           barBackgroundColor: '#37474F'
         },
-        Answer: {
+        HumanAnswerChatList: {
           barBackgroundColor: '#00796B'
         },
         Profile: {

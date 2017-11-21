@@ -5,3 +5,11 @@ export const LOGIN_USER_FAIL = 'login_user_fail';
 export const LOGIN_USER = 'login_user';
 
 export const CONVERSATION_POST_CREATE = 'conversation_post_create';
+
+export const CONVERSATION_POST_LIVE = 'conversation_post_live';
+
+export const LIVE_CHAT_POSTS_FETCH_SUCCESS = 'conversation_post_live_sucess';
+
+
+
+

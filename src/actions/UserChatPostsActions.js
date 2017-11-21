@@ -1,6 +1,8 @@
 
 import {
-  CONVERSATION_POST_CREATE
+  CONVERSATION_POST_CREATE,
+  CONVERSATION_POST_LIVE,
+  LIVE_CHAT_POSTS_FETCH_SUCCESS
 } from './types';
 
 import database, { firebase, googleAuthProvider } from '../firebase/firebase';
@@ -36,22 +38,83 @@ export const conversationPostCreate = ({ userQuery, response, machineResponded, 
 
 
 // if dialogflow had noresponse, add conversation to live-chat-posts node for human to answer
-// export const conversationPostCreate = ({ userQuery, response, machineResponded, date }, messagesToAdd) => {
+export const conversationPostSendToHuman = ({ userQuery }) => {
+
+	const  currentUserInfo = firebase.auth().currentUser;
+
+	return (dispatch) => {
+	database.ref(`live-chat-posts/${currentUserInfo.uid}`)
+	  .set({ 
+	  	taken: false,
+	  	responded: false,
+	  	userQuery: userQuery
+	   })
+	  .then(() => {
+	    dispatch({ 
+	    	type: CONVERSATION_POST_LIVE,
+	    	payload: userQuery
+	     });
+	  }).catch((error) => console.log('conversationPostCreate error: ', error));
+	};
+};
+
+
+// fetch live chat posts
+// export const liveChatPostsFetch = () => {
+
+	
 
 // 	const  currentUserInfo = firebase.auth().currentUser;
-
 // 	return (dispatch) => {
-// 	database.ref(`user-chat-posts/${currentUserInfo.uid}`)
-// 	  .push({ 
-// 	  	userQuery: userQuery,
-// 	  	response: response,
-// 	  	machineResponded: machineResponded
-// 	   })
-// 	  .then(() => {
-// 	    dispatch({ 
-// 	    	type: CONVERSATION_POST_CREATE,
-// 	    	payload: messagesToAdd
-// 	     });
-// 	  }).catch((error) => console.log('conversationPostCreate error: ', error));
-// 	};
+
+// 	    database.ref(`/live-chat-posts/`)
+// 	      .on('value', snapshot => {
+	      	
+// 	      	//   .limitToFirst(20)
+	      	
+// 	      	//console.error(snapshot.val().taken);
+// 	      	//snapshot.val().taken === false
+
+// 	      	if(true) {
+
+	      		
+// 	      		dispatch({ type: LIVE_CHAT_POSTS_FETCH_SUCCESS, payload: snapshot.val() });
+// 	      	} 
+	        
+// 	      });
+// 	  	};
 // };
+
+
+export const liveChatPostsFetch = () => {
+
+	const  currentUserInfo = firebase.auth().currentUser;
+	return (dispatch) => {
+
+	    database.ref(`/live-chat-posts`)
+	      .on('value', snapshot => {
+	      	
+	      	//   .limitToFirst(20)
+	      	
+	      	//console.error(snapshot.val().taken);
+	      	//snapshot.val().taken === false
+
+
+	      	dispatch({ type: LIVE_CHAT_POSTS_FETCH_SUCCESS, payload: snapshot.val() });
+	      	// STORE IN ARRAY, DONT CALL DISPATCH SO MANY TIMES
+
+	      	// snapshot.forEach((childSnapshot) => {
+
+
+	      	// 	if(childSnapshot.val().taken === false) {
+	      	// 		console.log("liveChatPostsFetch: ", snapshot.val());
+	      	// 		dispatch({ type: LIVE_CHAT_POSTS_FETCH_SUCCESS, payload: childSnapshot.val() });
+	      	// 	} 
+
+	      	// });
+
+	      	
+	        
+	      });
+	  	};
+};

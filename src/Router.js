@@ -2,13 +2,17 @@ import React from 'react';
 import { Scene, Router, Actions, Stack } from 'react-native-router-flux';
 import LoginForm from './components/LoginForm';
 import ChatBotChat from './components/ChatBotChat';
+import HumanAnswerChatList from './components/HumanAnswerChatList';
+import HumanAnswerChat from './components/HumanAnswerChat';
+
+
 
 import MainTabNavigation from './components/MainTabNavigation';
 
 import { StackNavigator } from 'react-navigation';
 
-import * as firebase from 'firebase'; // take all exports and toss them on 1 named var
-
+//import * as firebase from 'firebase'; // take all exports and toss them on 1 named var
+import database, { firebase, googleAuthProvider } from './firebase/firebase';
 
 
 //import configureStore from './store/configureStore';
@@ -41,33 +45,46 @@ import * as firebase from 'firebase'; // take all exports and toss them on 1 nam
 
  //  const store = configureStore();
 
+
+
+
 	const isSignedIn = false;
 
 	// const checkAuthStatus = () => {
 
 	// 	firebase.auth().onAuthStateChanged((user) => {
 	// 	  if (user) {
-	// 	    store.dispatch(login(user.uid));
-	// 	    isSignedIn = true;
+		    
+	// 	    //isSignedIn = true;
+        
+ //        return true;
+        
 		    
 	// 	  } else {
-	// 	    store.dispatch(logout());
-	// 	    isSignedIn = false;
+		    
+	// 	    //isSignedIn = false;
+        
+ //        return false;
+        
 	// 	  }
 	// 	});
 	// }
 
- //  checkAuthStatus();
+  
 
   const RouterComponent = StackNavigator({
     Home: {
       screen: LoginForm,
     },
     Details: {
-      screen: MainTabNavigation,
-      
+      screen: MainTabNavigation, 
     },
-
+    HumanAnswerChatList: {
+      screen: HumanAnswerChatList,
+    },
+    HumanAnswerChat: {
+      screen: HumanAnswerChat,
+    }
   },
   {
     index: 0,

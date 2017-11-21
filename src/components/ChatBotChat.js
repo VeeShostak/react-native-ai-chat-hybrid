@@ -25,24 +25,6 @@ class ChatBotChat extends React.Component {
   };
 
   componentWillMount() {
-    // this.setState({
-    //   messages: [
-
-    //   	{
-    //       _id: uuid.v4(),
-    //       text: 'How are you?',
-    //       createdAt: new Date(),
-    //       user: {
-    //         _id: 2,
-    //         name: 'Ai',
-            
-    //       },
-    //     },
-    //   ]
-    // });
-
-    //console.error(this.props.userChatPosts);
-
     this.setState({
       messages: this.props.userChatPosts
     });
@@ -67,37 +49,43 @@ class ChatBotChat extends React.Component {
         response = result.result.fulfillment.speech;
         
         // if bad response, route to human
-        if (response == "") {
-          // send to live-chat-posts, wait 10s, 
+        if (response === "") {
+          // send to human-chat-posts, wait 10s, 
+
+          // user id: this.props.auth.user.id available in action
+
+          this.props.conversationPostSendToHuman({ userQuery });
+
+        } else {
+
+          // else we got a response, add the conversation post
+
+            const messageObjectResponse =
+            {
+              _id: uuid.v4(),
+              text: response,
+              createdAt: new Date(),
+              user: {
+                _id: 2,
+                name: 'Ai',
+              },
+            };
+          
+            
+
+          this.setState((previousState) => ({
+            messages: GiftedChat.append(previousState.messages, messageObjectResponse),
+          }));
+
+          createdAt = messageObjectResponse.createdAt;
+
+
+          // NOTE: must be backwards for GiftedChat
+          messagesToAdd = [messageObjectResponse, messages[0]];
+
+          this.props.conversationPostCreate({ userQuery, response, machineResponded, createdAt }, messagesToAdd);
 
         }
-
-        // else we got a response, add the conversation post
-
-          const messageObjectResponse =
-          {
-            _id: uuid.v4(),
-            text: response,
-            createdAt: new Date(),
-            user: {
-              _id: 2,
-              name: 'Ai',
-            },
-          };
-        
-          
-
-        this.setState((previousState) => ({
-          messages: GiftedChat.append(previousState.messages, messageObjectResponse),
-        }));
-
-        createdAt = messageObjectResponse.createdAt;
-        
-
-        // NOTE: must be backwards for GiftedChat
-        messagesToAdd = [messageObjectResponse, messages[0]];
-
-        this.props.conversationPostCreate({ userQuery, response, machineResponded, createdAt }, messagesToAdd);
 
       }, error => console.log('api.ai: ', error)); 
     };
@@ -130,7 +118,8 @@ class ChatBotChat extends React.Component {
 // access state
 const mapStateToProps = (state) => {
   return {
-    userChatPosts: state.userChatPosts
+    userChatPosts: state.userChatPosts,
+    auth: state.auth
   }
 }
 
