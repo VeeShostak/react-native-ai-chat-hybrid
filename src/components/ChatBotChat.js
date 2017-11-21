@@ -33,7 +33,8 @@ class ChatBotChat extends React.Component {
   // @param messages: takes message object
   onSend(messages = []) {
 
-    // append userQuery to gifted chat messages
+    // append userQuery to gifted chat messages 
+    // note: returns implicit object
     this.setState((previousState) => ({
       messages: GiftedChat.append(previousState.messages, messages),
     }));
