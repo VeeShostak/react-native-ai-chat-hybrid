@@ -91,30 +91,12 @@ export const liveChatPostsFetch = () => {
 	const  currentUserInfo = firebase.auth().currentUser;
 	return (dispatch) => {
 
-	    database.ref(`/live-chat-posts`)
+	    database.ref(`/live-chat-posts`).limitToFirst(20)
 	      .on('value', snapshot => {
-	      	
-	      	//   .limitToFirst(20)
-	      	
-	      	//console.error(snapshot.val().taken);
-	      	//snapshot.val().taken === false
 
 
 	      	dispatch({ type: LIVE_CHAT_POSTS_FETCH_SUCCESS, payload: snapshot.val() });
-	      	// STORE IN ARRAY, DONT CALL DISPATCH SO MANY TIMES
 
-	      	// snapshot.forEach((childSnapshot) => {
-
-
-	      	// 	if(childSnapshot.val().taken === false) {
-	      	// 		console.log("liveChatPostsFetch: ", snapshot.val());
-	      	// 		dispatch({ type: LIVE_CHAT_POSTS_FETCH_SUCCESS, payload: childSnapshot.val() });
-	      	// 	} 
-
-	      	// });
-
-	      	
-	        
 	      });
 	  	};
 };
