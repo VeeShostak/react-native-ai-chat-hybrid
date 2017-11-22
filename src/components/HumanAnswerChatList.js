@@ -62,10 +62,16 @@ class HumanAnswerChatList extends React.Component {
     //console.log("in RenderRow, liveChatPost is: ", liveChatPost);
     return (
       <View style={styles.container}>
-        <ListItem liveChatPost={liveChatPost}/>
+        <ListItem liveChatPost={liveChatPost} />
       </View>
     );
     
+  }
+
+  renderSectionHeader() {
+    return (
+      <Header headerText={"Answer"}/>
+    );
   }
 
 
@@ -74,10 +80,11 @@ class HumanAnswerChatList extends React.Component {
 
   render() {
     return (
-      <ListView
+      <ListView 
         enableEmptySections
         dataSource={this.dataSource}
         renderRow={this.renderRow}
+        renderSectionHeader={this.renderSectionHeader}
         //initialListSize: 25
       />
     );
@@ -96,18 +103,21 @@ const mapStateToProps = (state) => {
   return { liveChatPosts };
 };
 
-export default connect(mapStateToProps, { liveChatPostsFetch })(HumanAnswerChatList);
 
 
-const styles = StyleSheet.create({
+
+const styles = {
   container: {
     flex: 1,
-    padding: 10,
+    padding: 5,
     flexDirection: 'row',
     alignItems: 'center',
-  }
-});
+  },
 
+};
+
+
+export default connect(mapStateToProps, { liveChatPostsFetch })(HumanAnswerChatList);
 
 // // access state
 // const mapStateToProps = (state) => {

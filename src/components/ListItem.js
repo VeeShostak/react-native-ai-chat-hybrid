@@ -14,7 +14,7 @@ class ListItem extends React.Component {
     this.props.navigation.navigate('HumanAnswerChat', {chatPost: this.props.liveChatPost});
 
   	// send navigation to the action as prop, also send the conversation object
-
+    
     //Actions.employeeEdit({ employee: this.props.employee });
   }
 
@@ -26,8 +26,10 @@ class ListItem extends React.Component {
       <TouchableWithoutFeedback onPress={this.onRowPress.bind(this)}>
         <View>
           
-          <CardSection>
-            <Text style={styles.titleStyle}>
+          <CardSection style={styles.cardSectionContainer}>
+            <Text 
+            style={styles.titleStyle}
+            >
               {userQuery}
             </Text>
           </CardSection>
@@ -40,7 +42,12 @@ class ListItem extends React.Component {
 const styles = {
   titleStyle: {
     fontSize: 18,
-    paddingLeft: 15
+    paddingLeft: 15,
+    backgroundColor: '#F0F0F0',
+  },
+  cardSectionContainer: {
+    padding: 15,
+    backgroundColor: '#F0F0F0'
   }
 };
 
