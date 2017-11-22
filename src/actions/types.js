@@ -10,6 +10,6 @@ export const CONVERSATION_POST_LIVE = 'conversation_post_live';
 
 export const LIVE_CHAT_POSTS_FETCH_SUCCESS = 'conversation_post_live_sucess';
 
-
+export const LIVE_CHAT_POSTS_HUMAN_RESPOND = 'conversation_post_live_human_respond';
 
 

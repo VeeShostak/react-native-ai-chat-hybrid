@@ -2,7 +2,8 @@
 import {
   CONVERSATION_POST_CREATE,
   CONVERSATION_POST_LIVE,
-  LIVE_CHAT_POSTS_FETCH_SUCCESS
+  LIVE_CHAT_POSTS_FETCH_SUCCESS,
+  LIVE_CHAT_POSTS_HUMAN_RESPOND
 } from './types';
 
 import database, { firebase, googleAuthProvider } from '../firebase/firebase';
@@ -98,5 +99,28 @@ export const liveChatPostsFetch = () => {
 	      	dispatch({ type: LIVE_CHAT_POSTS_FETCH_SUCCESS, payload: snapshot.val() });
 
 	      });
-	  	};
+	  };
+};
+
+
+export const liveChatPostsHumanRespond = (uid, userQuery, humanResponse) => {
+
+	const  currentUserInfo = firebase.auth().currentUser;
+	return (dispatch) => {
+
+	    database.ref(`/live-chat-posts/${uid}`).update({
+	    	taken: false,
+		  	responded: true,
+		  	humanResponse: humanResponse,
+		  	userQuery: userQuery
+	    })
+	    .then(() => {
+		    // dispatch({ 
+		    // 	type: LIVE_CHAT_POSTS_FETCH_SUCCESS,
+		    // 	payload: userQuery
+		    //  });
+		 }).catch((error) => console.log('liveChatPostsHumanRespond error: ', error));
+	      
+	  };
+	
 };

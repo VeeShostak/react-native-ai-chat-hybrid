@@ -8,6 +8,9 @@ import { connect } from 'react-redux';
 import { GiftedChat } from 'react-native-gifted-chat';
 import uuid from 'react-native-uuid';
 
+import { liveChatPostsHumanRespond } from '../actions';
+import { withNavigation } from 'react-navigation';
+
 //import * as myActions from '../actions';
 
 // access props passed to navigation
@@ -23,12 +26,16 @@ class HumanAnswerChat extends React.Component {
 
   componentWillMount() {
 
-    const question = this.props.navigation.state.params.chatPost.userQuery;
+    // chatPost: 
+    // {responded: false, taken: false, userQuery: "sample query", uid: "UIDcGvJyy6O1gmV6kuJvK0XWfLB3"}
+    const userQuery = this.props.navigation.state.params.chatPost.userQuery;
+
+    //console.log("chatpost: ", this.props.navigation.state.params.chatPost);
 
     const messageObjectResponse =
     {
       _id: uuid.v4(),
-      text: question,
+      text: userQuery,
       createdAt: new Date(),
       user: {
         _id: 2,
@@ -43,10 +50,21 @@ class HumanAnswerChat extends React.Component {
 
   onSend(messages = []) {
 
+    
+
+    const respondingToUid = this.props.navigation.state.params.chatPost.uid;
+    const userQuery = this.props.navigation.state.params.chatPost.userQuery;
+    const humanResponse = messages[0].text;
+
+    this.props.liveChatPostsHumanRespond(respondingToUid, userQuery, humanResponse);
+
     // append response to gifted chat messages
     this.setState((previousState) => ({
       messages: GiftedChat.append(previousState.messages, messages),
     }));
+
+    this.props.navigation.navigate('Details');
+
   }
 
   render() { 
@@ -57,7 +75,7 @@ class HumanAnswerChat extends React.Component {
         user={{
           _id: 1,
         }}
-        bottomOffset={50}
+        //bottomOffset={50}
         isAnimated={true}
         showUserAvatar={false}
         maxInputLength={200}
@@ -83,5 +101,7 @@ class HumanAnswerChat extends React.Component {
 
 //export default connect(mapStateToProps, mapStateToProps)(HumanAnswerChat);
 
-export default HumanAnswerChat;
+
+export default withNavigation(connect(undefined, { liveChatPostsHumanRespond })(HumanAnswerChat));
+
 

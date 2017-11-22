@@ -1,4 +1,5 @@
 import React from 'react';
+import { View } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { GiftedChat } from 'react-native-gifted-chat';
 import ApiAi from 'react-native-api-ai';
@@ -7,6 +8,8 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import * as myActions from '../actions';
+import { Header} from './common/Header';
+
 //import configureStore from './store';
 
 class ChatBotChat extends React.Component {
@@ -100,17 +103,20 @@ class ChatBotChat extends React.Component {
 
   render() {
     return (
-      <GiftedChat
-        messages={this.state.messages}
-        onSend={(messages) => this.onSend(messages)}
-        user={{
-          _id: 1,
-        }}
-        bottomOffset={50}
-        isAnimated={true}
-        showUserAvatar={false}
-        maxInputLength={200}
-      />
+      <View style={{flex: 1}}>
+        <Header headerText={"Chat"}/>
+        <GiftedChat
+          messages={this.state.messages}
+          onSend={(messages) => this.onSend(messages)}
+          user={{
+            _id: 1,
+          }}
+          bottomOffset={50}
+          isAnimated={true}
+          showUserAvatar={false}
+          maxInputLength={200}
+        />
+      </View>
     );
   }
 

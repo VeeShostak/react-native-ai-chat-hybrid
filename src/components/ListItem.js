@@ -10,11 +10,11 @@ class ListItem extends React.Component {
 
   onRowPress() {
   	// change to reply screen
-    console.log("prop to be passed: ", this.props.liveChatPost);
+    //console.log("prop to be passed: ", this.props.liveChatPost);
     this.props.navigation.navigate('HumanAnswerChat', {chatPost: this.props.liveChatPost});
 
   	// send navigation to the action as prop, also send the conversation object
-    
+
     //Actions.employeeEdit({ employee: this.props.employee });
   }
 

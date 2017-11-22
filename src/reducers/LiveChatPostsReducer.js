@@ -1,7 +1,8 @@
 import {
   CONVERSATION_POST_CREATE,
   CONVERSATION_POST_LIVE,
-  LIVE_CHAT_POSTS_FETCH_SUCCESS
+  LIVE_CHAT_POSTS_FETCH_SUCCESS,
+  LIVE_CHAT_POSTS_HUMAN_RESPOND
 } from '../actions/types';
 
 import uuid from 'react-native-uuid';
