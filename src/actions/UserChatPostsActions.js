@@ -3,7 +3,9 @@ import {
   CONVERSATION_POST_CREATE,
   CONVERSATION_POST_LIVE,
   LIVE_CHAT_POSTS_FETCH_SUCCESS,
-  LIVE_CHAT_POSTS_HUMAN_RESPOND
+  LIVE_CHAT_POSTS_HUMAN_RESPOND,
+  HUMAN_RESPONSE_FETCH_SUCCESS,
+  HUMAN_RESPONSE_SET
 } from './types';
 
 import database, { firebase, googleAuthProvider } from '../firebase/firebase';
@@ -92,7 +94,7 @@ export const liveChatPostsFetch = () => {
 	const  currentUserInfo = firebase.auth().currentUser;
 	return (dispatch) => {
 
-	    database.ref(`/live-chat-posts`).limitToFirst(20)
+	    database.ref(`/live-chat-posts/`).limitToFirst(20)
 	      .on('value', snapshot => {
 
 
@@ -122,5 +124,68 @@ export const liveChatPostsHumanRespond = (uid, userQuery, humanResponse) => {
 		 }).catch((error) => console.log('liveChatPostsHumanRespond error: ', error));
 	      
 	  };
+};
+
+
+
+export const humanResponseFetch = () => {
+
+	// while responded is false || time remains
+    // stay subscribed to the live-chat-post with your id
+
+	const  currentUserInfo = firebase.auth().currentUser;
+	return (dispatch) => {
+
+		//TODO:
+		// keep getting data once, every second, until timer runs out or success
+		
+	    database.ref(`/live-chat-posts/${currentUserInfo.uid}`)
+	      .once('value', snapshot => {
+
+	      	//console.log('in humanResponseFetch: ', snapshot.val().responded)
+	      	if (snapshot.val().responded === true) {
+
+	      		dispatch({ 
+	      			type: HUMAN_RESPONSE_FETCH_SUCCESS, 
+	      			payload: {
+	      				responded: true,
+	      				response: snapshot.val().humanResponse
+	      			} 
+	      		});
+	      	}
+	      	// 
+	      
+	      	//dispatch({ type: HUMAN_RESPONSE_FETCH_NO_RESPONSE, payload: snapshot.val() });
+
+	      });
+		
+
+	   	
+	  };
+};
+
+
+
+export const humanResponseSet = ({responded, response}) => {
+
+	// while responded is false || time remains
+    // stay subscribed to the live-chat-post with your id
+
+    return (dispatch) => {
+    	dispatch({ 
+			type: HUMAN_RESPONSE_SET, 
+			payload: {
+				responded: responded,
+				response: response
+			} 
+		});
+
+    }
 	
+	      	
+	      	
+		
+
+	   	
+	  
 };

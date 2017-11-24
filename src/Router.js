@@ -4,48 +4,10 @@ import LoginForm from './components/LoginForm';
 import ChatBotChat from './components/ChatBotChat';
 import HumanAnswerChatList from './components/HumanAnswerChatList';
 import HumanAnswerChat from './components/HumanAnswerChat';
-
-
-
 import MainTabNavigation from './components/MainTabNavigation';
-
 import { StackNavigator } from 'react-navigation';
-
-//import * as firebase from 'firebase'; // take all exports and toss them on 1 named var
 import database, { firebase, googleAuthProvider } from './firebase/firebase';
-
-
 //import configureStore from './store/configureStore';
-
-
-
-
-   
-
-// const RouterComponent = () => {
-//   return (
-
-
-
-
-//     <Router sceneStyle={{ paddingTop: 65 }}>
-  
-// 		<Stack key="root">
-// 	      <Scene key="login" component={LoginForm} title="Login"/>
-// 	      <Scene key="main" component={MainTabNavigation}/>
-// 	    </Stack>
-     
-//     </Router>
-
-//   );
-
-// };
-
-
-
- //  const store = configureStore();
-
-
 
 
 	const isSignedIn = false;

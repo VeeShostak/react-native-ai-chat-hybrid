@@ -13,3 +13,11 @@ export const LIVE_CHAT_POSTS_FETCH_SUCCESS = 'conversation_post_live_sucess';
 export const LIVE_CHAT_POSTS_HUMAN_RESPOND = 'conversation_post_live_human_respond';
 
 
+export const HUMAN_RESPONSE_FETCH_SUCCESS = 'human_response_fetch_success';
+
+
+
+export const HUMAN_RESPONSE_SET = 'human_response_set';
+
+
+

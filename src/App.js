@@ -14,6 +14,7 @@ import ReduxThunk from 'redux-thunk';
 
 import reducers from './reducers';
 import LiveChatPostsReducer from './reducers/LiveChatPostsReducer';
+import HumanResponseReducer from './reducers/HumanResponseReducer';
 
 import Router from './Router';
 
@@ -40,7 +41,7 @@ export default class App extends Component<{}> {
       applyMiddleware(...middleware),
       autoRehydrate()
     )(createStore)(reducers);
-    persistStore(store, {storage: AsyncStorage, blacklist: [LiveChatPostsReducer]});
+    persistStore(store, {storage: AsyncStorage, blacklist: [LiveChatPostsReducer, HumanResponseReducer]});
 
         return (
           // Provider makes the global store available to all of the children containers or components
