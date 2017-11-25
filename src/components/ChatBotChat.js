@@ -47,6 +47,7 @@ class ChatBotChat extends React.Component {
     timer.clearTimeout(this);
   }
 
+
   appendResponseMessageGiftedChat(text, createdAt) {
     const messageObjectResponse =
     {
@@ -111,17 +112,6 @@ class ChatBotChat extends React.Component {
         } else {
 
           // else we got a response, add the conversation post
-
-            // const messageObjectResponse =
-            // {
-            //   _id: uuid.v4(),
-            //   text: response,
-            //   createdAt: new Date(),
-            //   user: {
-            //     _id: 2,
-            //     name: 'Ai',
-            //   },
-            // };
             
           const createdAt = new Date();
           const messageObjectResponse = this.appendResponseMessageGiftedChat(response, createdAt)
@@ -161,7 +151,7 @@ class ChatBotChat extends React.Component {
       const messageObjectResponse = this.appendResponseMessageGiftedChat(response, createdAt);
 
       
-       messagesToAdd = [messageObjectResponse, userQueryMessageObject];
+      messagesToAdd = [messageObjectResponse, userQueryMessageObject];
       // add to user-chat-posts and to store (persist)
       this.props.conversationPostCreate({ userQuery, response, machineResponded, createdAt }, messagesToAdd);
 
@@ -178,15 +168,16 @@ class ChatBotChat extends React.Component {
       console.log('NO RESPONSE (timeRanOut): ', this.props.humanResponse.response);
       const machineResponded = false;
       const userQuery = userQueryMessageObject.text;
-      const boilerplateResponse = 'Sorry, I couldn\'t get that';
+      const response = 'Sorry, I couldn\'t get that';
 
       // notify user nobody was able to answer by appending boilerplate message
       createdAt = new Date();
-      const messageObjectResponse = this.appendResponseMessageGiftedChat(boilerplateResponse, createdAt);
+      const messageObjectResponse = this.appendResponseMessageGiftedChat(response, createdAt);
 
       messagesToAdd = [messageObjectResponse, userQueryMessageObject];
       // add to user-chat-posts and to store (persist)
-      this.props.conversationPostCreate({ userQuery, boilerplateResponse, machineResponded, createdAt }, messagesToAdd);
+      this.props.conversationPostCreate({ userQuery, response, machineResponded, createdAt }, messagesToAdd);
+      
 
       // reset human response
       const humanResponseReset = { responded: false, response: "sample"}
@@ -199,6 +190,7 @@ class ChatBotChat extends React.Component {
     } 
   }
   
+
 
   render() {
     return (

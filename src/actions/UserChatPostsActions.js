@@ -18,9 +18,8 @@ export const conversationPostCreate = ({ userQuery, response, machineResponded, 
 
 	const  currentUserInfo = firebase.auth().currentUser;
 
-
 	return (dispatch) => {
-	database.ref(`user-chat-posts/${currentUserInfo.uid}`)
+	database.ref(`/user-chat-posts/${currentUserInfo.uid}`)
 	  .push({ 
 	  	userQuery: userQuery,
 	  	response: response,
