@@ -5,7 +5,8 @@ import {
   LIVE_CHAT_POSTS_FETCH_SUCCESS,
   LIVE_CHAT_POSTS_HUMAN_RESPOND,
   HUMAN_RESPONSE_FETCH_SUCCESS,
-  HUMAN_RESPONSE_SET
+  HUMAN_RESPONSE_SET,
+  LIVE_CHAT_POST_DELETE
 } from './types';
 
 import database, { firebase, googleAuthProvider } from '../firebase/firebase';
@@ -57,10 +58,26 @@ export const conversationPostSendToHuman = ({ userQuery }) => {
 	    	type: CONVERSATION_POST_LIVE,
 	    	payload: userQuery
 	     });
-	  }).catch((error) => console.log('conversationPostCreate error: ', error));
+	  }).catch((error) => console.log('conversationPostSendToHuman error: ', error));
 	};
 };
 
+// if userQuery was answered by human, or timeRanOut(no response), we delete the live-chat-post
+export const liveChatPostDelete = () => {
+
+	const  currentUserInfo = firebase.auth().currentUser;
+
+	return (dispatch) => {
+	database.ref(`live-chat-posts/${currentUserInfo.uid}`)
+	  .remove()
+	  .then(() => {
+	    dispatch({ 
+	    	type: LIVE_CHAT_POST_DELETE,
+	    	payload: currentUserInfo.uid
+	     });
+	  }).catch((error) => console.log('liveChatPostDelete error: ', error));
+	};
+};
 
 // fetch live chat posts
 // export const liveChatPostsFetch = () => {
@@ -110,6 +127,7 @@ export const liveChatPostsHumanRespond = (uid, userQuery, humanResponse) => {
 	const  currentUserInfo = firebase.auth().currentUser;
 	return (dispatch) => {
 
+		// if exists, posts. if it was someone responded first it was deleted and doesnt exist, catches error
 	    database.ref(`/live-chat-posts/${uid}`).update({
 	    	taken: false,
 		  	responded: true,
@@ -125,6 +143,7 @@ export const liveChatPostsHumanRespond = (uid, userQuery, humanResponse) => {
 	      
 	  };
 };
+
 
 
 

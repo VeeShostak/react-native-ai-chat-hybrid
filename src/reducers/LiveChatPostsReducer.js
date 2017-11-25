@@ -2,7 +2,8 @@ import {
   CONVERSATION_POST_CREATE,
   CONVERSATION_POST_LIVE,
   LIVE_CHAT_POSTS_FETCH_SUCCESS,
-  LIVE_CHAT_POSTS_HUMAN_RESPOND
+  LIVE_CHAT_POSTS_HUMAN_RESPOND,
+  LIVE_CHAT_POST_DELETE
 } from '../actions/types';
 
 import uuid from 'react-native-uuid';
@@ -29,6 +30,9 @@ export default (state = INITIAL_STATE, action) => {
         
       // ];
       return action.payload; // load fetched chatPosts into store
+
+    case LIVE_CHAT_POST_DELETE:
+      return state;
 
       
     default:

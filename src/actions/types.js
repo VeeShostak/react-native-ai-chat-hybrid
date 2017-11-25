@@ -19,5 +19,9 @@ export const HUMAN_RESPONSE_FETCH_SUCCESS = 'human_response_fetch_success';
 
 export const HUMAN_RESPONSE_SET = 'human_response_set';
 
+export const LIVE_CHAT_POST_DELETE = 'live_chat_post_delete';
+
+
+
 
 

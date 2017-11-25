@@ -158,7 +158,7 @@ class ChatBotChat extends React.Component {
 
       // append response from Human to giftedCHat
       createdAt = new Date();
-      const messageObjectResponse = this.appendResponseMessageGiftedChat(this.props.humanResponse.response, createdAt);
+      const messageObjectResponse = this.appendResponseMessageGiftedChat(response, createdAt);
 
       
        messagesToAdd = [messageObjectResponse, userQueryMessageObject];
@@ -170,6 +170,7 @@ class ChatBotChat extends React.Component {
       this.props.humanResponseSet(humanResponseReset);
 
       // delete live-chat-post
+      this.props.liveChatPostDelete();
       
 
     }
@@ -177,23 +178,25 @@ class ChatBotChat extends React.Component {
       console.log('NO RESPONSE (timeRanOut): ', this.props.humanResponse.response);
       const machineResponded = false;
       const userQuery = userQueryMessageObject.text;
-      const response = 'Sorry, I couldn\'t get that';
+      const boilerplateResponse = 'Sorry, I couldn\'t get that';
 
       // notify user nobody was able to answer by appending boilerplate message
       createdAt = new Date();
-      const messageObjectResponse = this.appendResponseMessageGiftedChat(response, createdAt);
+      const messageObjectResponse = this.appendResponseMessageGiftedChat(boilerplateResponse, createdAt);
 
       messagesToAdd = [messageObjectResponse, userQueryMessageObject];
       // add to user-chat-posts and to store (persist)
-      this.props.conversationPostCreate({ userQuery, response, machineResponded, createdAt }, messagesToAdd);
+      this.props.conversationPostCreate({ userQuery, boilerplateResponse, machineResponded, createdAt }, messagesToAdd);
 
       // reset human response
       const humanResponseReset = { responded: false, response: "sample"}
       this.props.humanResponseSet(humanResponseReset);
 
       // delete live-chat-post
+      this.props.liveChatPostDelete();
 
-    }
+
+    } 
   }
   
 

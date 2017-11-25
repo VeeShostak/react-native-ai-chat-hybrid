@@ -56,6 +56,7 @@ class HumanAnswerChat extends React.Component {
     const userQuery = this.props.navigation.state.params.chatPost.userQuery;
     const humanResponse = messages[0].text;
 
+    // checks if uuid still exitst
     this.props.liveChatPostsHumanRespond(respondingToUid, userQuery, humanResponse);
 
     // append response to gifted chat messages
