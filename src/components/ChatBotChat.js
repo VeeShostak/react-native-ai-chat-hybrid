@@ -119,7 +119,7 @@ class ChatBotChat extends React.Component {
           
           messagesToAdd = [messageObjectResponse, userQueryMessageObject];
 
-          this.props.conversationPostCreate({ userQuery, response, machineResponded, createdAt }, messagesToAdd);
+          this.props.conversationPostCreate({ userQuery, response, machineResponded }, messagesToAdd, this.props.auth.refresh_token);
 
         }
 
@@ -153,7 +153,7 @@ class ChatBotChat extends React.Component {
       
       messagesToAdd = [messageObjectResponse, userQueryMessageObject];
       // add to user-chat-posts and to store (persist)
-      this.props.conversationPostCreate({ userQuery, response, machineResponded, createdAt }, messagesToAdd);
+      this.props.conversationPostCreate({ userQuery, response, machineResponded }, messagesToAdd, this.props.auth.refresh_token);
 
       // reset human response
       const humanResponseReset = { responded: false, response: "sample"}
@@ -176,7 +176,7 @@ class ChatBotChat extends React.Component {
 
       messagesToAdd = [messageObjectResponse, userQueryMessageObject];
       // add to user-chat-posts and to store (persist)
-      this.props.conversationPostCreate({ userQuery, response, machineResponded, createdAt }, messagesToAdd);
+      this.props.conversationPostCreate({ userQuery, response, machineResponded }, messagesToAdd, this.props.auth.refresh_token);
       
 
       // reset human response
@@ -217,7 +217,8 @@ class ChatBotChat extends React.Component {
 const mapStateToProps = (state) => {
   return {
     userChatPosts: state.userChatPosts,
-    humanResponse: state.humanResponse
+    humanResponse: state.humanResponse,
+    auth: state.auth
   }
 }
 

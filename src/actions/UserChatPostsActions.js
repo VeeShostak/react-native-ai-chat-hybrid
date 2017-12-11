@@ -11,34 +11,67 @@ import {
 
 import database, { firebase, googleAuthProvider } from '../firebase/firebase';
 
+// place in file
+const url_rest_api_postgresql = 'https://ai-chat-restful-api-db.herokuapp.com';
+
 
 // add (q and a) conversation to db and to store
 // @param machineResponded: bool did the machine or a human respond
-export const conversationPostCreate = ({ userQuery, response, machineResponded, createdAt }, messagesToAdd) => {
+export const conversationPostCreate = ({ userQuery, response, machineResponded }, messagesToAdd, refreshToken) => {
+	
 
 	const  currentUserInfo = firebase.auth().currentUser;
 
+	// return (dispatch) => {
+	// database.ref(`/user-chat-posts/${currentUserInfo.uid}`)
+	//   .push({ 
+	//   	userQuery: userQuery,
+	//   	response: response,
+	//   	machineResponded: machineResponded,
+	//   	createdAt: createdAt.getTime()
+	//    })
+	//   .then(() => {
+	//     dispatch({ 
+	//     	type: CONVERSATION_POST_CREATE,
+	//     	payload: messagesToAdd
+	//      });
+	//   }).catch((error) => console.log('conversationPostCreate error: ', error));
+	// };
+
+	
 	return (dispatch) => {
-	database.ref(`/user-chat-posts/${currentUserInfo.uid}`)
-	  .push({ 
-	  	userQuery: userQuery,
-	  	response: response,
-	  	machineResponded: machineResponded,
-	  	createdAt: createdAt.getTime()
-	   })
-	  .then(() => {
-	    dispatch({ 
-	    	type: CONVERSATION_POST_CREATE,
-	    	payload: messagesToAdd
-	     });
-	  }).catch((error) => console.log('conversationPostCreate error: ', error));
-	};
+		// add conversation post to PostreSQL. (PK is postId and is auto incremented)
+		// SEND WITH
+        fetch(`${url_rest_api_postgresql}/chat-post/${userQuery}`, {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${refreshToken}`
+          },
+          body: JSON.stringify({
+		  	response: response,
+		  	machine_responded: machineResponded,
+		  	user_id: currentUserInfo.uid
+          })
+        }).then(response => response.json()).then(responseJson => {
+            console.log('ok: tried to add conversation-post to postgreSQL ', responseJson);
+            dispatch({ 
+		    	type: CONVERSATION_POST_CREATE,
+		    	payload: messagesToAdd
+	     	});
+        }).catch(error => {
+          console.log('failed: failed to add conversation-post to postgreSQL ', error);
+        });
+	}
 
 };
 
 
 
-
+// ========================
+// START live-chat-posts
+// ========================
 
 // if dialogflow had noresponse, add conversation to live-chat-posts node for human to answer
 export const conversationPostSendToHuman = ({ userQuery }) => {
@@ -198,12 +231,9 @@ export const humanResponseSet = ({responded, response}) => {
 			} 
 		});
 
-    }
-	
-	      	
-	      	
-		
-
-	   	
-	  
+    }  
 };
+
+// ========================
+// END live-chat-posts
+// ========================
